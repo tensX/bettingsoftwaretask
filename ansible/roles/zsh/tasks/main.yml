@@ -1,0 +1,33 @@
+# ansible/roles/zsh/tasks/main.yml
+
+- name: Устанавливаем git
+  ansible.builtin.package:
+    name: git
+    state: present
+
+- name: Устанавливаем Zsh
+  ansible.builtin.package:
+    name: zsh
+    state: present
+
+- name: Проверяем, существует ли Oh My Zsh для пользователя
+  ansible.builtin.stat:
+    path: /home/{{ item.name }}/.oh-my-zsh
+  register: zsh_installed
+  loop: "{{ users }}"
+  when: item.shell == '/bin/zsh'
+
+- name: Устанавливаем Oh My Zsh
+  ansible.builtin.shell:
+    cmd: wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O - | zsh
+  args:
+    chdir: /home/{{ item.name }}
+    creates: /home/{{ item.name }}/.oh-my-zsh
+  loop: "{{ users }}"
+  when:
+    - item.shell == '/bin/zsh'
+    - zsh_installed is defined
+    - zsh_installed.stat is defined
+    - not zsh_installed.stat.exists
+  become: yes
+  become_user: "{{ item.name }}"

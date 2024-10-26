@@ -1,0 +1,42 @@
+# ansible/roles/nginx/tasks/main.yml
+
+- name: Устанавливаем Nginx
+  ansible.builtin.package:
+    name: nginx
+    state: present
+
+- name: Копируем конфигурационный файл Nginx
+  ansible.builtin.copy:
+    src: roles/nginx/files/nginx.conf
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Проверяем конфигурацию Nginx
+  ansible.builtin.command: nginx -t
+  register: nginx_test
+  ignore_errors: yes
+
+- name: Выводим результат проверки конфигурации Nginx
+  ansible.builtin.debug:
+    msg: "{{ nginx_test.stderr }}"
+
+- name: Проверяем, запущен ли Nginx
+  ansible.builtin.shell: pgrep nginx
+  register: nginx_running
+  ignore_errors: yes
+
+- name: Запускаем Nginx, если он не запущен и конфигурация валидна
+  ansible.builtin.shell: nginx
+  when:
+    - nginx_test.rc == 0
+    - nginx_running.rc != 0
+
+- name: Перезапускаем Nginx, если конфигурация валидна и Nginx запущен
+  ansible.builtin.shell: nginx -s reload
+  when:
+    - nginx_test.rc == 0
+    - nginx_running.rc == 0
+
+

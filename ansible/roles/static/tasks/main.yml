@@ -1,0 +1,19 @@
+- name: Создаем директорию для изображений
+  ansible.builtin.file:
+    path: /var/www/html/images/
+    owner: www-data
+    group: www-data
+    recurse: yes
+    state: directory
+    mode: '0755'
+
+- name: Копируем изображения
+  ansible.builtin.get_url:
+    url: "{{ item }}"
+    dest: "/var/www/html/images/"
+  loop:
+    - "https://img.lovepik.com/background/20211022/large/lovepik-sky-clouds-background-image_401746897.jpg"
+    - "https://i.pinimg.com/736x/3b/39/2b/3b392be0ffe869c1c036ace3277f88c6.jpg"
+    - "https://img.freepik.com/free-photo/strange-pink-light-circle-clouds-sky-ai-generated_268835-8272.jpg"
+    - "https://t4.ftcdn.net/jpg/04/08/87/37/360_F_408873710_BGALzaKeH5u7kQ2l8EzS7lHL2KaM7ad9.jpg"
+  register: download_results

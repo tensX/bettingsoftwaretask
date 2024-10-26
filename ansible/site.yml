@@ -1,0 +1,27 @@
+# site.yml
+
+- name: Проверяем доступность подключения как root
+  hosts: all
+  gather_facts: no
+  connection: ssh
+  remote_user: root
+  tasks:
+    - name: Проверяем подключение как root
+      ansible.builtin.ping:
+      register: root_ping
+      ignore_unreachable: yes
+      ignore_errors: yes
+
+- name: Выполняем настройку с выбором пользователя
+  hosts: all
+  become: yes
+  vars:
+    selected_user: "{{ 'root' if root_ping is defined and root_ping.ping is defined else 'ansible_user' }}"
+  remote_user: "{{ selected_user }}"
+  roles:
+    - users
+    - utilities
+    - ssh
+    - zsh
+    - static
+    - nginx

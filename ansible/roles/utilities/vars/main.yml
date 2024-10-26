@@ -1,0 +1,8 @@
+# ansible/roles/utilities/vars/main.yml
+
+utility_packages:
+  - htop
+  - ncdu
+  - git
+  - nano
+

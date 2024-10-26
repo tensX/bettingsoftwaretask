@@ -1,0 +1,38 @@
+# ansible/roles/ssh/tasks/main.yml
+
+- name: Запрещаем вход root
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PermitRootLogin'
+    line: 'PermitRootLogin no'
+
+- name: Запрещаем пустые пароли
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PermitEmptyPasswords'
+    line: 'PermitEmptyPasswords no'
+
+- name: Включаем VERBOSE логирование
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?LogLevel'
+    line: 'LogLevel VERBOSE'
+
+- name: Отключаем X11Forwarding
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?X11Forwarding'
+    line: 'X11Forwarding no'
+
+- name: Проверяем конфигурацию SSH
+  ansible.builtin.command: sshd -t
+  register: sshd_test
+  ignore_errors: yes
+
+- name: Выводим результат проверки конфигурации SSH
+  ansible.builtin.debug:
+    msg: "{{ sshd_test.stderr }}"
+
+- name: Перезагружаем конфигурацию SSH
+  ansible.builtin.shell: kill -HUP $(pgrep -o sshd)
+  when: sshd_test.rc == 0

@@ -1,0 +1,27 @@
+# ansible/group_vars/all.yml
+#
+#
+custom_groups:
+  - devops
+  - admins
+
+users:
+  - name: ansible_user
+    shell: /bin/bash
+    state: present
+    groups:
+      - sudo
+    ssh_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDrpsWrw+dn6Zc+K+0lguVTQSsRN/+ze3TvvNue4jX5lD9az2R9fwRp2+2B1m+7W/fIwdt+59scD4KRtZ/9K2ivJZ10sTxRaVlxCzhUdC3sHPYjjQgnToiTFeEuC+zoHGASok2yCsiiXn7Ax1p6t0P2HzysBgVwv5udCUoVxGbH96Eno6trgha9cKSz5turM0+ZAh+Ayig3C77uZtlmUOHaYQjQi/Bsr51vk8weBE/9iRz37n00sDfDBQrg+KpX8F7U7FzSzOCKTzhKtJ2VQRgmZAec4Otb3C/rVw69rSsLIB0nvkXb2ZauJdF1e4xwVmc0cb+RwNvRaC0cte9oGHrT1MaUGUhlFr9yBwQZyfag2kDD6pr1oG5h6Mak8wP7aKvtMK0v/gIwXanZCcUq2wBiOpqdfKCXgjVbd65G5nE9gTUnWLd5sjKjYau4592L8uKSWjUWXW5FbT5m3gV3VPBctoq6K328qrD/oMCfIqI5OwnItINFpZOtin9NY2DJ+VGiMjM40li7z9dwim1A31HVife8KLBorU5pvy9KpRgGiidwIHdJzz4JrgQPJqbQribae41Q5j4q+Xwi+TZfA6SNF3OYPErnOREN7lOvA1wqtxsmno6XcV2wPOAiUXAqx+dZJJcbXOMFrGSXrKTwD9JnlbKorO1/EhE67jIoiPLQQQ=="
+  - name: user1
+    shell: /bin/bash
+    state: present
+    groups:
+      - devops
+    ssh_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDrpsWrw+dn6Zc+K+0lguVTQSsRN/+ze3TvvNue4jX5lD9az2R9fwRp2+2B1m+7W/fIwdt+59scD4KRtZ/9K2ivJZ10sTxRaVlxCzhUdC3sHPYjjQgnToiTFeEuC+zoHGASok2yCsiiXn7Ax1p6t0P2HzysBgVwv5udCUoVxGbH96Eno6trgha9cKSz5turM0+ZAh+Ayig3C77uZtlmUOHaYQjQi/Bsr51vk8weBE/9iRz37n00sDfDBQrg+KpX8F7U7FzSzOCKTzhKtJ2VQRgmZAec4Otb3C/rVw69rSsLIB0nvkXb2ZauJdF1e4xwVmc0cb+RwNvRaC0cte9oGHrT1MaUGUhlFr9yBwQZyfag2kDD6pr1oG5h6Mak8wP7aKvtMK0v/gIwXanZCcUq2wBiOpqdfKCXgjVbd65G5nE9gTUnWLd5sjKjYau4592L8uKSWjUWXW5FbT5m3gV3VPBctoq6K328qrD/oMCfIqI5OwnItINFpZOtin9NY2DJ+VGiMjM40li7z9dwim1A31HVife8KLBorU5pvy9KpRgGiidwIHdJzz4JrgQPJqbQribae41Q5j4q+Xwi+TZfA6SNF3OYPErnOREN7lOvA1wqtxsmno6XcV2wPOAiUXAqx+dZJJcbXOMFrGSXrKTwD9JnlbKorO1/EhE67jIoiPLQQQ=="
+  - name: user2
+    shell: /bin/zsh
+    state: present
+    groups:
+      - admins
+    ssh_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDrpsWrw+dn6Zc+K+0lguVTQSsRN/+ze3TvvNue4jX5lD9az2R9fwRp2+2B1m+7W/fIwdt+59scD4KRtZ/9K2ivJZ10sTxRaVlxCzhUdC3sHPYjjQgnToiTFeEuC+zoHGASok2yCsiiXn7Ax1p6t0P2HzysBgVwv5udCUoVxGbH96Eno6trgha9cKSz5turM0+ZAh+Ayig3C77uZtlmUOHaYQjQi/Bsr51vk8weBE/9iRz37n00sDfDBQrg+KpX8F7U7FzSzOCKTzhKtJ2VQRgmZAec4Otb3C/rVw69rSsLIB0nvkXb2ZauJdF1e4xwVmc0cb+RwNvRaC0cte9oGHrT1MaUGUhlFr9yBwQZyfag2kDD6pr1oG5h6Mak8wP7aKvtMK0v/gIwXanZCcUq2wBiOpqdfKCXgjVbd65G5nE9gTUnWLd5sjKjYau4592L8uKSWjUWXW5FbT5m3gV3VPBctoq6K328qrD/oMCfIqI5OwnItINFpZOtin9NY2DJ+VGiMjM40li7z9dwim1A31HVife8KLBorU5pvy9KpRgGiidwIHdJzz4JrgQPJqbQribae41Q5j4q+Xwi+TZfA6SNF3OYPErnOREN7lOvA1wqtxsmno6XcV2wPOAiUXAqx+dZJJcbXOMFrGSXrKTwD9JnlbKorO1/EhE67jIoiPLQQQ=="
+

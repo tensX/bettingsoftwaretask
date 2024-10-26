@@ -1,0 +1,12 @@
+# ansible/roles/utilities/tasks/main.yml
+
+- name: Обновляем пакеты
+  ansible.builtin.apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: Устанавливаем дополнительные утилиты
+  ansible.builtin.apt:
+    name: "{{ utility_packages }}"
+    state: present
+

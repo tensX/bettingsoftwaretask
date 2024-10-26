@@ -1,0 +1,37 @@
+# ansible/roles/users/tasks/main.yml
+
+- name: Создаем кастомные группы
+  ansible.builtin.group:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ custom_groups }}"
+  when: custom_groups is defined
+
+- name: Создаем пользователей
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    shell: "{{ item.shell }}"
+    state: "{{ item.state }}"
+    groups: "{{ item.groups }}"
+    password: "{{ item.password | default(omit) }}"
+  loop: "{{ users }}"
+  when: users is defined
+
+- name: Настраиваем SSH ключи для пользователей
+  ansible.builtin.authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ item.ssh_key }}"
+  loop: "{{ users }}"
+  when: users is defined
+
+- name: Устанавливаем sudo
+  ansible.builtin.package:
+    name: sudo
+    state: present
+
+- name: Настраиваем sudo без пароля для ansible_user
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/ansible_user
+    create: yes
+    line: 'ansible_user ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'

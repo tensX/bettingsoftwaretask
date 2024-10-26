@@ -1,0 +1,7 @@
+all:
+  hosts:
+    static_server:
+      ansible_host: 68.183.216.238
+      ansible_port: 2222
+      ansible_ssh_private_key_file: "/root/.ssh/id_rsa_betting_software"
+      ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
